@@ -572,6 +572,15 @@ func (t BaseMiddleware) ApplyPolicies(session *user.SessionState) error {
 		session.Tags = append(session.Tags, tag)
 	}
 
+	// 0 or 1 pol case
+	if len(policies) < 2 {
+		accessRights := session.GetAccessRights()
+		for apiID, accessRight := range accessRights {
+			accessRight.AllowanceScope = apiID
+			session.AccessRights[apiID] = accessRight
+		}
+	}
+
 	distinctACL := map[string]bool{}
 	for _, v := range rights {
 		if v.Limit.SetBy != "" {
