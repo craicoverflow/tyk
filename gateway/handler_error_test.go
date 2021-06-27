@@ -21,7 +21,7 @@ func TestHandleError_text_xml(t *testing.T) {
 	<code>500</code>
 	<message>{{.Message}}</message>
 </error>`
-	err := ioutil.WriteFile(file, []byte(xml), 0o600)
+	err := ioutil.WriteFile(file, []byte(xml), 0600)
 	if err != nil {
 		t.Fatal(err)
 	}

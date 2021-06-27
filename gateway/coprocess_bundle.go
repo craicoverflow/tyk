@@ -187,7 +187,7 @@ func (ZipBundleSaver) Save(bundle *Bundle, bundlePath string, spec *APISpec) err
 		destPath := filepath.Join(bundlePath, f.Name)
 
 		if f.FileHeader.Mode().IsDir() {
-			if err := os.Mkdir(destPath, 0o700); err != nil {
+			if err := os.Mkdir(destPath, 0700); err != nil {
 				return err
 			}
 			continue
@@ -372,7 +372,7 @@ func loadBundle(spec *APISpec) error {
 		return bundleError(spec, err, "Couldn't fetch bundle")
 	}
 
-	if err := os.MkdirAll(destPath, 0o700); err != nil {
+	if err := os.MkdirAll(destPath, 0700); err != nil {
 		return bundleError(spec, err, "Couldn't create bundle directory")
 	}
 

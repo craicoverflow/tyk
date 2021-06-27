@@ -846,7 +846,7 @@ func handleAddOrUpdateApi(apiID string, r *http.Request, fs afero.Fs) (interface
 		return apiError("Marshalling failed"), http.StatusInternalServerError
 	}
 
-	if err := ioutil.WriteFile(defFilePath, asByte, 0o644); err != nil {
+	if err := ioutil.WriteFile(defFilePath, asByte, 0644); err != nil {
 		log.Error("Failed to create file! - ", err)
 		return apiError("File object creation failed, write error"), http.StatusInternalServerError
 	}

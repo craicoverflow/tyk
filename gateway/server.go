@@ -1055,11 +1055,11 @@ func initialiseSystem(ctx context.Context) error {
 
 func writePIDFile() error {
 	file := config.Global().PIDFileLocation
-	if err := os.MkdirAll(filepath.Dir(file), 0o755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(file), 0755); err != nil {
 		return err
 	}
 	pid := strconv.Itoa(os.Getpid())
-	return ioutil.WriteFile(file, []byte(pid), 0o600)
+	return ioutil.WriteFile(file, []byte(pid), 0600)
 }
 
 func readPIDFromFile() (int, error) {

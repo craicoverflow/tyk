@@ -138,7 +138,7 @@ func TestConfigFiles(t *testing.T) {
 
 	// path1 exists but is invalid
 	os.Remove(path2)
-	ioutil.WriteFile(path1, []byte("{"), 0o644)
+	ioutil.WriteFile(path1, []byte("{"), 0644)
 	if err := Load(paths, conf); err == nil {
 		t.Fatalf("Load with an invalid config did not error")
 	}

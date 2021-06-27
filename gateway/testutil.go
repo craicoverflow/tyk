@@ -364,11 +364,11 @@ func RegisterBundle(name string, files map[string]string) string {
 }
 
 func RegisterJSFileMiddleware(apiid string, files map[string]string) {
-	os.MkdirAll(config.Global().MiddlewarePath+"/"+apiid+"/post", 0o755)
-	os.MkdirAll(config.Global().MiddlewarePath+"/"+apiid+"/pre", 0o755)
+	os.MkdirAll(config.Global().MiddlewarePath+"/"+apiid+"/post", 0755)
+	os.MkdirAll(config.Global().MiddlewarePath+"/"+apiid+"/pre", 0755)
 
 	for file, content := range files {
-		ioutil.WriteFile(config.Global().MiddlewarePath+"/"+apiid+"/"+file, []byte(content), 0o755)
+		ioutil.WriteFile(config.Global().MiddlewarePath+"/"+apiid+"/"+file, []byte(content), 0755)
 	}
 }
 
@@ -1374,7 +1374,7 @@ func LoadAPI(specs ...*APISpec) (out []*APISpec) {
 			panic(err)
 		}
 		specFilePath := filepath.Join(config.Global().AppPath, spec.APIID+strconv.Itoa(i)+".json")
-		if err := ioutil.WriteFile(specFilePath, specBytes, 0o644); err != nil {
+		if err := ioutil.WriteFile(specFilePath, specBytes, 0644); err != nil {
 			panic(err)
 		}
 	}

@@ -1094,7 +1094,7 @@ func WriteConf(path string, conf *Config) error {
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(path, bs, 0o644)
+	return ioutil.WriteFile(path, bs, 0644)
 }
 
 // writeDefault will set conf to the default config and write it to disk

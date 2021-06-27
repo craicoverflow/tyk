@@ -92,10 +92,10 @@ func TestGatewayTLS(t *testing.T) {
 
 	t.Run("Legacy TLS certificate path", func(t *testing.T) {
 		certFilePath := filepath.Join(dir, "server.crt")
-		ioutil.WriteFile(certFilePath, serverCertPem, 0o666)
+		ioutil.WriteFile(certFilePath, serverCertPem, 0666)
 
 		certKeyPath := filepath.Join(dir, "server.key")
-		ioutil.WriteFile(certKeyPath, serverPrivPem, 0o666)
+		ioutil.WriteFile(certKeyPath, serverPrivPem, 0666)
 
 		globalConf := config.Global()
 		globalConf.HttpServerOptions.Certificates = []config.CertData{{
@@ -122,7 +122,7 @@ func TestGatewayTLS(t *testing.T) {
 
 	t.Run("File certificate path", func(t *testing.T) {
 		certPath := filepath.Join(dir, "server.pem")
-		ioutil.WriteFile(certPath, combinedPEM, 0o666)
+		ioutil.WriteFile(certPath, combinedPEM, 0666)
 
 		globalConf := config.Global()
 		globalConf.HttpServerOptions.SSLCertificates = []string{certPath}
