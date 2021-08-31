@@ -88,7 +88,8 @@ func (h *ResponseTransformMiddleware) HandleResponse(rw http.ResponseWriter, res
 		"path":        req.URL.Path,
 	})
 
-	_, versionPaths, _, _ := h.Spec.Version(req)
+	versionInfo, _ := h.Spec.Version(req)
+	versionPaths := h.Spec.RxPaths[versionInfo.Name]
 	found, meta := h.Spec.CheckSpecMatchesStatus(req, versionPaths, TransformedResponse)
 	if !found {
 		return nil
@@ -145,7 +146,7 @@ func (h *ResponseTransformMiddleware) HandleResponse(rw http.ResponseWriter, res
 
 	if tmeta.TemplateData.EnableSession {
 		if session := ctxGetSession(req); session != nil {
-			bodyData["_tyk_meta"] = session.GetMetaData()
+			bodyData["_tyk_meta"] = session.MetaData
 		} else {
 			logger.Error("Session context was enabled but not found.")
 		}

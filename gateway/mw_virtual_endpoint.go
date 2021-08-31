@@ -107,7 +107,8 @@ func (d *VirtualEndpoint) EnabledForSpec() bool {
 }
 
 func (d *VirtualEndpoint) getMetaFromRequest(r *http.Request) *apidef.VirtualMeta {
-	_, versionPaths, _, _ := d.Spec.Version(r)
+	version, _ := d.Spec.Version(r)
+	versionPaths := d.Spec.RxPaths[version.Name]
 	found, meta := d.Spec.CheckSpecMatchesStatus(r, versionPaths, VirtualPath)
 	if !found {
 		return nil
@@ -162,7 +163,7 @@ func (d *VirtualEndpoint) ServeHTTPForCache(w http.ResponseWriter, r *http.Reque
 	// Encode the configuration data too
 	specAsJson := specToJson(d.Spec)
 
-	session := user.NewSessionState()
+	session := new(user.SessionState)
 
 	// Encode the session object (if not a pre-process)
 	if vmeta.UseSession {
@@ -226,9 +227,9 @@ func (d *VirtualEndpoint) ServeHTTPForCache(w http.ResponseWriter, r *http.Reque
 	// Save the sesison data (if modified)
 	if vmeta.UseSession {
 		newMeta := newResponseData.SessionMeta
-		if !reflect.DeepEqual(session.GetMetaData(), newMeta) {
-			session.SetMetaData(newMeta)
-			ctxSetSession(r, session, "", true)
+		if !reflect.DeepEqual(session.MetaData, newMeta) {
+			session.MetaData = newMeta
+			ctxSetSession(r, session, true)
 		}
 	}
 
@@ -265,9 +266,9 @@ func forceResponse(w http.ResponseWriter,
 		ReadSeeker: bytes.NewReader(responseMessage),
 	}
 	newResponse.StatusCode = newResponseData.Response.Code
-	newResponse.Proto = "HTTP/1.0"
-	newResponse.ProtoMajor = 1
-	newResponse.ProtoMinor = 0
+	newResponse.Proto = r.Proto
+	newResponse.ProtoMajor = r.ProtoMajor
+	newResponse.ProtoMinor = r.ProtoMinor
 	newResponse.Header.Set("Server", "tyk")
 	newResponse.Header.Set("Date", requestTime)
 
